@@ -10,12 +10,12 @@ const expenseShema = new mongoose.Schema({
         required : true
     }, 
     date : {
-        type : Date,
-        default : Date.now()
+        type: Date,
+        default: new Date()
     }
 })
 
 
-const Expense = new mongoose.model("Expense", expenseShema);
+const Expense = mongoose.model("Expense", expenseShema);
 
 export default Expense;
