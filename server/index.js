@@ -6,7 +6,11 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 app.use(express.json()); //express's own json parser....bodyparser alternative
+app.use(express.urlencoded({ // encode data coming from a form
+    extended: true
+  }));
 app.use(cors()); //to avoid cross origin errors
+
 
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log("database connected"))
@@ -21,10 +25,13 @@ app.get("/expenses", async (req, res)=>{
 });
 
 //api to add expense..using post request
-app.post("/expenses/new", (req, res)=>{
+app.post("/expenses", (req, res)=>{
+
+    console.log(req.body);
+    
     const newExpense = new Expense({
-        expense : req.body.expense,
-        amount : req.body.amount
+        expense :req.body.expense,
+        amount :req.body.amount
     });
 
     newExpense.save((err)=>{
@@ -37,27 +44,53 @@ app.post("/expenses/new", (req, res)=>{
 })
 
 //api to edit expense..using patch request
-app.patch("/expenses/edit/:id", async (req, res)=>{
+app.patch("/expense/edit/:id", (req, res)=>{
     const id = req.params.id;
-    const field = req.body.field;
-    const value = req.body.value;
 
-    const response = await Expense.updateOne({_id:id}, {field: value});
-
-    res.json(response);
-
+    Expense.findOneAndUpdate({_id:id}, 
+        {$set: {expense: req.body.expense, amount: req.body.amount}}, {returnDocument: "after"}, (err, updatedDocument)=>{ //returnDocument:"after" returns updated doc
+            if(!err){
+                res.json(updatedDocument);
+            }else{
+                res.json(err);
+            }
+         })
 });
 
 //api to delete expense..using delete request
 
-app.delete("expenses/delete/:id", async (req, res)=>{
-    
+app.delete("/expense/delete/:id", async (req, res)=>{
     const id = req.params.id;
+    console.log(id);
     const response = await Expense.findByIdAndDelete({_id : id});
     res.json(response);
 })
 
+// const mobile = new Expense({
+//     expense :"baught a mobile phone",
+//     amount: 12000
+// })
+// mobile.save();
+
+// const earphone = new Expense({
+//     expense: "baught a earphone",
+//     amount: 1000
+// })
+// earphone.save();
+
+// const jeans = new Expense({
+//     expense: "baught a jeans",
+//     amount: 1200
+// })
+// jeans.save();
+
+// const rent = new Expense({
+//     expense: "paid rent",
+//     amount: 3000
+// })
+// rent.save();
+
 
 
 app.listen(process.env.PORT, ()=>{
-    console.log("server is listening at port " + process.env.PORT)})
+    console.log("server is listening at port " + process.env.PORT)});
