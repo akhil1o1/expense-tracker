@@ -66,30 +66,6 @@ app.delete("/expense/delete/:id", async (req, res)=>{
     res.json(response);
 })
 
-// const mobile = new Expense({
-//     expense :"baught a mobile phone",
-//     amount: 12000
-// })
-// mobile.save();
-
-// const earphone = new Expense({
-//     expense: "baught a earphone",
-//     amount: 1000
-// })
-// earphone.save();
-
-// const jeans = new Expense({
-//     expense: "baught a jeans",
-//     amount: 1200
-// })
-// jeans.save();
-
-// const rent = new Expense({
-//     expense: "paid rent",
-//     amount: 3000
-// })
-// rent.save();
-
 
 
 app.listen(process.env.PORT, ()=>{
