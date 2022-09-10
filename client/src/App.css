@@ -1,3 +1,6 @@
 body{
-    background-color: rgb(238, 242, 243);
+    background-color: #ecf0f1b4;
+}
+.accordian{
+    width: 80% !important;
 }

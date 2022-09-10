@@ -48,7 +48,7 @@ app.patch("/expense/edit/:id", (req, res)=>{
     const id = req.params.id;
 
     Expense.findOneAndUpdate({_id:id}, 
-        {$set: {expense: req.body.expense, amount: req.body.amount}}, {returnDocument: "after"}, (err, updatedDocument)=>{ //returnDocument:"after" returns updated doc
+        {$set: {expense: req.body.expense, description: req.body.description, amount: req.body.amount}}, {returnDocument: "after"}, (err, updatedDocument)=>{ //returnDocument:"after" returns updated doc
             if(!err){
                 res.json(updatedDocument);
             }else{
