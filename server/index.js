@@ -31,6 +31,7 @@ app.post("/expenses", (req, res)=>{
     
     const newExpense = new Expense({
         expense :req.body.expense,
+        description : req.body.description,
         amount :req.body.amount
     });
 
@@ -65,50 +66,6 @@ app.delete("/expense/delete/:id", async (req, res)=>{
     const response = await Expense.findByIdAndDelete({_id : id});
     res.json(response);
 })
-
-
-// const mobile = new Expense({
-//     expense : "Mobile phone",
-//     description : "Baught a mobile phone from rishikesh",
-//     amount : 12000,
-// })
-
-// mobile.save();
-
-// const charger = new Expense({
-//     expense : "Mobile charger",
-//     description : "Baught a mobile charger ",
-//     amount : 700,
-// })
-
-// charger.save();
-
-// const jeans = new Expense({
-//     expense : "jeans",
-//     description : "Baught a jeans from Lambgaon",
-//     amount : 12000,
-// })
-
-// jeans.save();
-
-// const rent = new Expense({
-//     expense : "Room rent",
-//     description : "Paid half of the rent",
-//     amount : 2000,
-// })
-
-// rent.save();
-
-
-// const bill = new Expense({
-//     expense :"Electricity bill",
-//     description : "paid last month electricity bill",
-//     amount: 300,
-// })
-
-// bill.save()
-
-
 
 
 app.listen(process.env.PORT, ()=>{

@@ -28,15 +28,6 @@ function App() {
   })
   console.log(newExpense);
 
-
-  function handleChange(event) {
-   const { name, value } = event.target;
-    setNewExpense(prevExpense=>(
-      {...prevExpense,
-      [name] : value }
-    ))
-  };
-
   const APIbase = "http://localhost:5000";
 
   useEffect(()=>{
@@ -50,6 +41,53 @@ function App() {
   },[]);
 
 
+  function handleChange(event) {
+   const { name, value } = event.target;
+    setNewExpense(prevNewExpense=>(
+      {...prevNewExpense,
+      [name] : value }
+    ))
+  };
+
+  const addExpense = async (newExpense) => {
+    const response = await fetch(`${APIbase}/expenses`, {
+      method: "post",
+      headers :{
+        "Content-type" : "application/json"
+      },
+      body: JSON.stringify(newExpense)
+    })
+    .then(res=> res.json())
+    .catch(err=> console.log(`Error : ${err}`));
+    
+    if(response.expense){
+      setExpenses((prevExpenses)=>(
+        [...prevExpenses, response]
+      ))
+    }else{
+      alert("Please enter Expense details.");
+    }
+    setNewExpense({
+      expense : "",
+      description : "",
+      amount : ""
+    })
+  };
+
+  const deleteExpense = async (id) => {
+      const response = await fetch(`${APIbase}/expense/delete/${id}`,
+       {method:"delete"})
+      .then((res)=> res.json())
+      .catch((err)=> console.log(err));
+
+      setExpenses((prevExpenses)=>{
+        return prevExpenses.filter((expense)=> expense._id !== response._id)
+      });
+  };
+
+  
+
+
   return <ThemeProvider theme={theme}>
     <Navbar/>
     <Box sx={{ display:"flex" , textAlign: "center", justifyContent:"center", pt:"30px", pb:"20px"}}>
@@ -58,7 +96,7 @@ function App() {
       </Typography>
     </Box>
     <Divider orientation="horizontal"/>
-    <ExpenseInputArea newExpense={newExpense} handleChange={handleChange}/>
+    <ExpenseInputArea newExpense={newExpense} handleChange={handleChange} addExpense={addExpense}/>
     <Divider orientation="horizontal"/>
     <Stack pt="30px" spacing={1} justifyContent="center" px="7%">
     {
@@ -70,6 +108,7 @@ function App() {
         description={item.description}
         amount={item.amount}
         date={item.date}
+        deleteExpense={deleteExpense}
         />
       ))
     }

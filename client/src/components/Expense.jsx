@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import { Accordion, AccordionSummary, Typography, AccordionDetails, Box, IconButton, Tooltip } from "@mui/material";
+import { Accordion, AccordionSummary, Typography, AccordionDetails, Box, IconButton, Tooltip, Divider } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-function Expense({expense, description, amount, date}) { //code from mui Accordian component
+function Expense({id, expense, description, amount, date, deleteExpense}) { //code from mui Accordian component
     const [expanded, setExpanded] = useState(false);
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -24,13 +24,16 @@ function Expense({expense, description, amount, date}) { //code from mui Accordi
       <Typography sx={{ width: '33%', flexShrink: 0 }}>
         {localDate}
       </Typography>
-      <Typography sx={{ color: 'text.primary' }}>{expense}</Typography>
+      <Typography sx={{ color: 'text.primary' }}>
+      {expense}</Typography>
     </AccordionSummary>
+    <Divider/>
     <AccordionDetails>
     <Typography pb="15px">
        {`Amount : ${amount}`}
     </Typography>
-      <Typography>
+    <Divider/>
+      <Typography pt="5px">
         {`Description : ${description}`}
       </Typography>
     </AccordionDetails>
@@ -39,7 +42,7 @@ function Expense({expense, description, amount, date}) { //code from mui Accordi
   <IconButton color="secondary"><EditIcon/></IconButton>
   </Tooltip>
   <Tooltip title="Delete Expense" placement="right-start">
-  <IconButton color="secondary"><DeleteIcon/></IconButton>
+  <IconButton onClick={()=>deleteExpense(id)} color="secondary"><DeleteIcon/></IconButton>
   </Tooltip>
   </Box>
 }
