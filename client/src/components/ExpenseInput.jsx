@@ -2,12 +2,14 @@ import React from "react";
 import { TextField, InputAdornment} from "@mui/material";
 
 
-function ExpenseInput(props) {
-    return <TextField size="small" id="outlined-basic" label={props.label} variant="outlined"
+function ExpenseInput({value, handleChange, label, icon, name}) {
+    return <TextField name={name} size="small" id="outlined-basic" label={label} variant="outlined" 
+    value={value}
+    onChange={handleChange}
     InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              {props.icon}
+              {icon}
             </InputAdornment>
           ),
         }} />

@@ -1,13 +1,10 @@
 import React,{useState, useEffect}from "react";
-import { Box , Stack, Typography, Divider, Button } from "@mui/material";
+import { Box , Stack, Typography, Divider } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import DescriptionIcon from '@mui/icons-material/Description';
 import Navbar from "./components/Navbar";
-import ExpenseInput from "./components/ExpenseInput";
 import Expense from "./components/Expense";
 import Footer from "./components/Footer";
+import ExpenseInputArea from "./components/ExpenseInputArea";
 import "./App.css";
 
 
@@ -24,6 +21,21 @@ function App() {
 
   const [ Expenses , setExpenses ] = useState([]);
   console.log(Expenses);
+  const [ newExpense, setNewExpense ] = useState({
+    expense : "",
+    description : "",
+    amount : ""
+  })
+  console.log(newExpense);
+
+
+  function handleChange(event) {
+   const { name, value } = event.target;
+    setNewExpense(prevExpense=>(
+      {...prevExpense,
+      [name] : value }
+    ))
+  };
 
   const APIbase = "http://localhost:5000";
 
@@ -46,15 +58,7 @@ function App() {
       </Typography>
     </Box>
     <Divider orientation="horizontal"/>
-    <Stack pt="40px" pb="30px" 
-    direction={{xs:"column", sm:"row"}} 
-    spacing={{xs: 1, sm: 2, md: 4}} justifyContent="center" 
-    divider={<Divider orientation="vertical" flexItem />}>
-    <ExpenseInput label={"Expense"} icon={<ShoppingBagIcon/>}/>
-    <ExpenseInput label={"Description"} icon={<DescriptionIcon/>}/>
-    <ExpenseInput label={"Amount"} icon={<CurrencyRupeeIcon/>}/>
-    <Button variant="outlined" size="medium" color="secondary">Add Expense</Button>
-    </Stack>
+    <ExpenseInputArea newExpense={newExpense} handleChange={handleChange}/>
     <Divider orientation="horizontal"/>
     <Stack pt="30px" spacing={1} justifyContent="center" px="7%">
     {
