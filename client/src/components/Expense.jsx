@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-function Expense({id, expense, description, amount, date, deleteExpense}) { //code from mui Accordian component
+function Expense({id, expense, description, amount, date, deleteExpense, handleEdit }) { //component code from mui Accordian component
     const [expanded, setExpanded] = useState(false);
 
     const handleChange = (panel) => (event, isExpanded) => {

@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Expense from "./components/Expense";
 import Footer from "./components/Footer";
 import ExpenseInputArea from "./components/ExpenseInputArea";
+import ErrorAlert from "./components/ErrorAlert";
 import "./App.css";
 
 
@@ -27,6 +28,13 @@ function App() {
     amount : ""
   })
   console.log(newExpense);
+
+  const [showAlert, setShowAlert] = React.useState(false);
+  const handleClose = () => {
+    setShowAlert(false);
+  };
+
+  const [editExpense, setEditExpense] = useState(false);
 
   const APIbase = "http://localhost:5000";
 
@@ -65,7 +73,7 @@ function App() {
         [...prevExpenses, response]
       ))
     }else{
-      alert("Please enter Expense details.");
+      setShowAlert(true);
     }
     setNewExpense({
       expense : "",
@@ -73,6 +81,7 @@ function App() {
       amount : ""
     })
   };
+
 
   const deleteExpense = async (id) => {
       const response = await fetch(`${APIbase}/expense/delete/${id}`,
@@ -98,6 +107,7 @@ function App() {
     <Divider orientation="horizontal"/>
     <ExpenseInputArea newExpense={newExpense} handleChange={handleChange} addExpense={addExpense}/>
     <Divider orientation="horizontal"/>
+    <ErrorAlert showAlert={showAlert} handleClose={handleClose}/>
     <Stack pt="30px" spacing={1} justifyContent="center" px="7%">
     {
       Expenses.map((item)=>(
