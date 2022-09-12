@@ -20,8 +20,8 @@ const theme = createTheme({
 
 function App() {
 
-  const [ Expenses , setExpenses ] = useState([]);
-  console.log(Expenses);
+  const [ expenses , setExpenses ] = useState([]);
+  console.log(expenses);
   const [ newExpense, setNewExpense ] = useState({
     expense : "",
     description : "",
@@ -29,12 +29,14 @@ function App() {
   })
   console.log(newExpense);
 
-  const [showAlert, setShowAlert] = React.useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const handleClose = () => {
     setShowAlert(false);
   };
 
-  const [editExpense, setEditExpense] = useState(false);
+  const [editExpenseId, setEditExpenseId] = useState("");
+  console.log(`editExpenseId ${editExpenseId}`);
+ 
 
   const APIbase = "http://localhost:5000";
 
@@ -82,6 +84,25 @@ function App() {
     })
   };
 
+  function handleEditClick (id){
+    console.log(`id : ${id}`);
+    setEditExpenseId(id);
+  };
+
+  function handleEditChange (event) {
+    const { name, value } = event.target;
+    setNewExpense(prevNewExpense=>(
+      {...prevNewExpense,
+      [name] : value }
+    ));
+  }
+
+  const saveEditedExpense = async () => {
+
+    setEditExpenseId("");
+  }
+
+  
 
   const deleteExpense = async (id) => {
       const response = await fetch(`${APIbase}/expense/delete/${id}`,
@@ -96,7 +117,6 @@ function App() {
 
   
 
-
   return <ThemeProvider theme={theme}>
     <Navbar/>
     <Box sx={{ display:"flex" , textAlign: "center", justifyContent:"center", pt:"30px", pb:"20px"}}>
@@ -105,12 +125,19 @@ function App() {
       </Typography>
     </Box>
     <Divider orientation="horizontal"/>
-    <ExpenseInputArea newExpense={newExpense} handleChange={handleChange} addExpense={addExpense}/>
+    <ExpenseInputArea newExpense={newExpense} 
+     handleChange={handleChange} 
+     addExpense={addExpense}
+     expenses={expenses}
+     editExpenseId={editExpenseId}
+     handleEditChange={handleEditChange}
+     saveEditedExpense={saveEditedExpense}
+     />
     <Divider orientation="horizontal"/>
     <ErrorAlert showAlert={showAlert} handleClose={handleClose}/>
     <Stack pt="30px" spacing={1} justifyContent="center" px="7%">
     {
-      Expenses.map((item)=>(
+      expenses.map((item)=>(
         <Expense 
         key={item._id} 
         id={item._id} 
@@ -119,6 +146,7 @@ function App() {
         amount={item.amount}
         date={item.date}
         deleteExpense={deleteExpense}
+        handleEditClick={handleEditClick}
         />
       ))
     }

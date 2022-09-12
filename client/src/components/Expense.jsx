@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-function Expense({id, expense, description, amount, date, deleteExpense, handleEdit }) { //component code from mui Accordian component
+function Expense({id, expense, description, amount, date, deleteExpense, handleEditClick }) { //component code from mui Accordian component
     const [expanded, setExpanded] = useState(false);
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -39,7 +39,7 @@ function Expense({id, expense, description, amount, date, deleteExpense, handleE
     </AccordionDetails>
   </Accordion>
   <Tooltip title="Edit Expense" placement="left-start">
-  <IconButton color="secondary"><EditIcon/></IconButton>
+  <IconButton onClick={()=>handleEditClick(id)} color="secondary"><EditIcon/></IconButton>
   </Tooltip>
   <Tooltip title="Delete Expense" placement="right-start">
   <IconButton onClick={()=>deleteExpense(id)} color="secondary"><DeleteIcon/></IconButton>

@@ -5,7 +5,16 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ExpenseInput from "./ExpenseInput";
 
-function ExpenseInputArea({newExpense, handleChange, addExpense}) {
+function ExpenseInputArea({newExpense, handleChange, addExpense, editExpenseId, handleEditChange,saveEditedExpense, expenses}) {
+
+    editExpenseId && console.log(`inside ExpenseInputArea : ${editExpenseId}`);
+    const editExpenseArray = expenses.filter((expense)=> expense._id===editExpenseId);
+    console.log(`editExpenseArray : ${editExpenseArray}`);
+    const [editExpense] = editExpenseArray;
+    console.log(`editExpense : ${editExpense}`);
+
+    
+
     return <Stack pt="40px" pb="30px" 
     direction={{xs:"column", sm:"row"}} 
     spacing={{xs: 1, sm: 2, md: 4}} justifyContent="center" 
