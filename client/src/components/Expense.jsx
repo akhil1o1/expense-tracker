@@ -8,11 +8,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function Expense({id, expense, description, amount, date, deleteExpense, handleEditClick }) { //component code from mui Accordian component
     const [expanded, setExpanded] = useState(false);
 
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const localDate = new Date(date).toLocaleDateString("en-IN", options);
+
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
       };
 
-      const localDate = new Date(date).toLocaleDateString();
+     
 
     return <Box display="flex" alignItems="center" flexDirection="row" width="100%">
     <Accordion className="accordian" expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>

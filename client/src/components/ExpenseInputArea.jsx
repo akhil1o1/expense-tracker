@@ -5,14 +5,9 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ExpenseInput from "./ExpenseInput";
 
-function ExpenseInputArea({newExpense, handleChange, addExpense, editExpenseId, handleEditChange,saveEditedExpense, expenses}) {
+function ExpenseInputArea({newExpense, handleChange, addExpense, editExpenseId, saveEditedExpense}) {
 
     editExpenseId && console.log(`inside ExpenseInputArea : ${editExpenseId}`);
-    const editExpenseArray = expenses.filter((expense)=> expense._id===editExpenseId);
-    console.log(`editExpenseArray : ${editExpenseArray}`);
-    const [editExpense] = editExpenseArray;
-    console.log(`editExpense : ${editExpense}`);
-
     
 
     return <Stack pt="40px" pb="30px" 
@@ -38,7 +33,7 @@ function ExpenseInputArea({newExpense, handleChange, addExpense, editExpenseId, 
     label={"Amount"} 
     icon={<CurrencyRupeeIcon/>}/>
     <Button variant="outlined" size="medium" color="secondary" 
-    onClick={()=>addExpense(newExpense)}>Add Expense</Button>
+    onClick={()=>{editExpenseId ? saveEditedExpense(newExpense) : addExpense(newExpense) }}>{editExpenseId ? "Save Edit" : "Add Expense"}</Button>
     </Stack>
 }
 

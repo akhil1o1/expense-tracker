@@ -27,7 +27,7 @@ function App() {
     description : "",
     amount : ""
   })
-  console.log(newExpense);
+  console.log(`newExpense : ${newExpense}`);
 
   const [showAlert, setShowAlert] = useState(false);
   const handleClose = () => {
@@ -61,7 +61,7 @@ function App() {
 
   const addExpense = async (newExpense) => {
     const response = await fetch(`${APIbase}/expenses`, {
-      method: "post",
+      method: "POST",
       headers :{
         "Content-type" : "application/json"
       },
@@ -87,26 +87,45 @@ function App() {
   function handleEditClick (id){
     console.log(`id : ${id}`);
     setEditExpenseId(id);
+    const filterArray = expenses.filter((expense)=> expense._id===id);
+    const [ editExpense ] = filterArray;
+    setNewExpense(editExpense);
   };
 
-  function handleEditChange (event) {
-    const { name, value } = event.target;
-    setNewExpense(prevNewExpense=>(
-      {...prevNewExpense,
-      [name] : value }
-    ));
-  }
 
-  const saveEditedExpense = async () => {
+  const saveEditedExpense = async (editedExpense) => {
+    console.log(`edited Expense : ${editedExpense}`);
+    const id = editedExpense._id;
+    const response = await fetch(`${APIbase}/expense/edit/${id}`, {
+      method: "PATCH",
+      headers : {
+        "Content-type" : "application/json"
+      },
+      body : JSON.stringify(editedExpense)
+    })
+    .then((response)=> response.json())
+    .catch((err)=> console.log(`Error : ${err}`));
+
+    console.log(response);
+
+    setExpenses((prevExpenses)=> {
+      const newExpenses = prevExpenses.filter((expense)=> expense._id!==response._id);
+      return [...newExpenses, response];
+    });
 
     setEditExpenseId("");
+    setNewExpense({
+      expense : "",
+      description : "",
+      amount : ""
+    });
   }
 
   
 
   const deleteExpense = async (id) => {
       const response = await fetch(`${APIbase}/expense/delete/${id}`,
-       {method:"delete"})
+       {method:"DELETE"})
       .then((res)=> res.json())
       .catch((err)=> console.log(err));
 
@@ -130,7 +149,6 @@ function App() {
      addExpense={addExpense}
      expenses={expenses}
      editExpenseId={editExpenseId}
-     handleEditChange={handleEditChange}
      saveEditedExpense={saveEditedExpense}
      />
     <Divider orientation="horizontal"/>
