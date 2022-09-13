@@ -16,57 +16,5 @@ mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log("database connected"))
 .catch((err) => console.log(err));
 
-import Expense from "./model/Expense.js";
-
-//api to get all expenses..using get request
-app.get("/expenses", async (req, res)=>{
-    const expenses = await Expense.find({});
-    res.json(expenses);
-});
-
-//api to add expense..using post request
-app.post("/expenses", (req, res)=>{
-
-    console.log(req.body);
-    
-    const newExpense = new Expense({
-        expense :req.body.expense,
-        description : req.body.description,
-        amount :req.body.amount
-    });
-
-    newExpense.save((err)=>{
-        if(!err){
-            res.json(newExpense);
-        }else{
-            res.json(err);
-        }
-    })
-})
-
-//api to edit expense..using patch request
-app.patch("/expense/edit/:id", (req, res)=>{
-    const id = req.params.id;
-    
-    Expense.findOneAndUpdate({_id:id}, 
-        {$set: {expense: req.body.expense, description: req.body.description, amount: req.body.amount}}, {returnDocument: "after"}, (err, updatedDocument)=>{ //returnDocument:"after" returns updated doc
-            if(!err){
-                res.json(updatedDocument);
-            }else{
-                res.json(err);
-            }
-         })
-});
-
-//api to delete expense..using delete request
-
-app.delete("/expense/delete/:id", async (req, res)=>{
-    const id = req.params.id;
-    console.log(id);
-    const response = await Expense.findByIdAndDelete({_id : id});
-    res.json(response);
-})
-
-
 app.listen(process.env.PORT, ()=>{
     console.log("server is listening at port " + process.env.PORT)});

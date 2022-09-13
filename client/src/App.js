@@ -1,6 +1,7 @@
 import React,{useState, useEffect}from "react";
 import { Box , Stack, Typography, Divider } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CircularProgress from '@mui/material/CircularProgress'
 import Navbar from "./components/Navbar";
 import Expense from "./components/Expense";
 import Footer from "./components/Footer";
@@ -153,7 +154,8 @@ function App() {
      />
     <Divider orientation="horizontal"/>
     <ErrorAlert showAlert={showAlert} handleClose={handleClose}/>
-    <Stack pt="30px" spacing={1} justifyContent="center" px="7%">
+    { //conditionaly rendering loader
+      expenses.length ? <Stack pt="30px" spacing={1} justifyContent="center" px="7%">
     {
       expenses.map((item)=>(
         <Expense 
@@ -168,7 +170,11 @@ function App() {
         />
       ))
     }
-    </Stack>
+    </Stack> 
+    : <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "50vh" }}>
+      <CircularProgress color="secondary"/>
+    </Box>
+    }
     <Footer/>
     </ThemeProvider>
 }
