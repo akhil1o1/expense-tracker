@@ -10,7 +10,7 @@ import ErrorAlert from "./components/ErrorAlert";
 import "./App.css";
 
 
-const theme = createTheme({
+const theme = createTheme({ //applying font-family
   typography: {
     fontFamily: [
       'Poppins', `sans-serif`,
@@ -41,25 +41,22 @@ function App() {
 
   const APIbase = "http://localhost:5000";
 
+  // to get all expenses on first load
   useEffect(()=>{
     const fetchExpenses = async () =>{
       const response = await fetch(`${APIbase}/expenses`);
       const data = await response.json();
-      setExpenses(data);
+      const sortedData = data.sort((a,b)=>{ //sorting by newest date
+        return new Date(b.date) - new Date(a.date)
+      });
+      setExpenses(sortedData);
       console.log("use effect ran");
     }
     fetchExpenses();
   },[]);
 
 
-  function handleChange(event) {
-   const { name, value } = event.target;
-    setNewExpense(prevNewExpense=>(
-      {...prevNewExpense,
-      [name] : value }
-    ))
-  };
-
+  // to add new expense
   const addExpense = async (newExpense) => {
     const response = await fetch(`${APIbase}/expenses`, {
       method: "POST",
@@ -85,6 +82,8 @@ function App() {
     })
   };
 
+
+  //onclick handler for edit button inside Expense.jsx
   function handleEditClick (id){
     console.log(`id : ${id}`);
     setEditExpenseId(id);
@@ -93,11 +92,11 @@ function App() {
     setNewExpense(editExpense);
   };
 
-
+  // save edited response
   const saveEditedExpense = async (editedExpense) => {
     console.log(`edited Expense : ${editedExpense}`);
     const id = editedExpense._id;
-    const response = await fetch(`${APIbase}/expense/edit/${id}`, {
+    const response = await fetch(`${APIbase}/expenses/edit/${id}`, {
       method: "PATCH",
       headers : {
         "Content-type" : "application/json"
@@ -123,9 +122,9 @@ function App() {
   }
 
   
-
+  // delete a expense
   const deleteExpense = async (id) => {
-      const response = await fetch(`${APIbase}/expense/delete/${id}`,
+      const response = await fetch(`${APIbase}/expenses/delete/${id}`,
        {method:"DELETE"})
       .then((res)=> res.json())
       .catch((err)=> console.log(err));
@@ -146,7 +145,7 @@ function App() {
     </Box>
     <Divider orientation="horizontal"/>
     <ExpenseInputArea newExpense={newExpense} 
-     handleChange={handleChange} 
+     setNewExpense={setNewExpense} 
      addExpense={addExpense}
      expenses={expenses}
      editExpenseId={editExpenseId}

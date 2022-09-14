@@ -1,4 +1,4 @@
-import Expense from "../model/Expense";
+import Expense from "../model/expense.js";
 
 export const getExpenses = async (req, res)=>{
     const expenses = await Expense.find({});
@@ -6,9 +6,7 @@ export const getExpenses = async (req, res)=>{
 }
 
 export const postExpense = (req, res)=>{
-
     console.log(req.body);
-    
     const newExpense = new Expense({
         expense :req.body.expense,
         description : req.body.description,
@@ -19,6 +17,7 @@ export const postExpense = (req, res)=>{
         if(!err){
             res.json(newExpense);
         }else{
+            console.log(err);
             res.json(err);
         }
     })
@@ -40,7 +39,6 @@ export const editExpense = (req, res)=>{
 
 export const deleteExpense = async (req, res)=>{
     const id = req.params.id;
-    console.log(id);
     const response = await Expense.findByIdAndDelete({_id : id});
     res.json(response);
 }

@@ -17,7 +17,7 @@ function ErrorAlert({showAlert, handleClose}) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please fill the Expense details before Adding.
+            Please fill the expense details before adding and make sure amount is number.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

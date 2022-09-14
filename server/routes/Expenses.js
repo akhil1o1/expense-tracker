@@ -1,11 +1,11 @@
 import express from "express";
-import {getExpenses, postExpense, editExpense, deleteExpense} from "../controllers/Expenses.js";
+import {getExpenses, postExpense, editExpense, deleteExpense} from "../controllers/expenses.js";
 
 const router = express.Router();
 
-router.get("/expenses", getExpenses);
-router.post("/expenses", postExpense);
-router.patch("/expense/edit/:id", editExpense);
-router.delete("/expense/delete/:id", deleteExpense);
+router.get("/", getExpenses);
+router.post("/", postExpense);
+router.patch("/edit/:id", editExpense);
+router.delete("/delete/:id", deleteExpense);
 
 export default router;
