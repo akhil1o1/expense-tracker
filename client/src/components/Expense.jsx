@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function Expense({id, expense, description, amount, date, deleteExpense, handleEditClick }) { //component code from mui Accordian component
     const [expanded, setExpanded] = useState(false);
 
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
     const localDate = new Date(date).toLocaleDateString("en-IN", options);
 
     const handleChange = (panel) => (event, isExpanded) => {

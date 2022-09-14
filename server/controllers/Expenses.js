@@ -17,7 +17,6 @@ export const postExpense = (req, res)=>{
         if(!err){
             res.json(newExpense);
         }else{
-            console.log(err);
             res.json(err);
         }
     })

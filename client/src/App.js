@@ -154,7 +154,7 @@ function App() {
     <Divider orientation="horizontal"/>
     <ErrorAlert showAlert={showAlert} handleClose={handleClose}/>
     { //conditionaly rendering loader
-      expenses.length ? <Stack pt="30px" spacing={1} justifyContent="center" px="7%">
+      expenses.length ? <Stack pt="30px" spacing={1} justifyContent="center" mx={{xs:"0", sm:"7%"}}>
     {
       expenses.map((item)=>(
         <Expense 
