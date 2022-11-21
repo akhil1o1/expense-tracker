@@ -34,7 +34,9 @@ function App() {
   const [editExpenseId, setEditExpenseId] = useState("");
   console.log(`editExpenseId ${editExpenseId}`);
 
-  const APIbase = "http://localhost:5000";
+  // const APIbaseLocal = "http://localhost:5000";
+  const APIbase = "https://mern-expensetracker-app.herokuapp.com";
+
 
   // to get all expenses on first load
   useEffect(() => {
