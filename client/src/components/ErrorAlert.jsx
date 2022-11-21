@@ -1,9 +1,15 @@
-import * as React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle  } from '@mui/material';
-import ErrorIcon from '@mui/icons-material/Error';
+import * as React from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import ErrorIcon from "@mui/icons-material/Error";
 
-function ErrorAlert({showAlert, handleClose}) {
- 
+function ErrorAlert({ showAlert, handleClose }) {
   return (
     <div>
       <Dialog
@@ -13,11 +19,12 @@ function ErrorAlert({showAlert, handleClose}) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {<ErrorIcon className="error-icon"/>}
+          {<ErrorIcon className="error-icon" />}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please fill the expense details before adding and make sure amount is number.
+            Please fill the expense details before adding and make sure amount
+            is number.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -29,6 +36,5 @@ function ErrorAlert({showAlert, handleClose}) {
     </div>
   );
 }
-
 
 export default ErrorAlert;
